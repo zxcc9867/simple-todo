@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple Todo</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <h1>Simple Todo</h1>
+
+      <section id="progress">
+        <div id="progress-track"><div id="progress-fill"></div></div>
+        <p id="progress-text"></p>
+        <p id="progress-by-category"></p>
+      </section>
+
+      <form id="todo-form">
+        <input type="text" id="todo-input" placeholder="할일을 입력하세요" autocomplete="off" />
+        <select id="todo-category">
+          <option value="work">업무</option>
+          <option value="personal">개인</option>
+          <option value="study">공부</option>
+        </select>
+        <button type="submit">추가</button>
+      </form>
+
+      <div id="filter-row">
+        <button type="button" class="filter-btn active" data-filter="all">전체</button>
+        <button type="button" class="filter-btn" data-filter="work">업무</button>
+        <button type="button" class="filter-btn" data-filter="personal">개인</button>
+        <button type="button" class="filter-btn" data-filter="study">공부</button>
+      </div>
+
+      <ul id="todo-list"></ul>
+    </div>
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>
