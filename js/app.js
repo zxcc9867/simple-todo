@@ -1,4 +1,6 @@
 import { addTodo, deleteTodo, getTodos, subscribe, toggleComplete, updateTodo } from './todos.js'
+import { guessCategory } from './categorize.js'
+import { initTheme, toggleTheme } from './theme.js'
 
 const CATEGORY_LABELS = { work: '업무', personal: '개인', study: '공부' }
 
@@ -10,14 +12,37 @@ const filterRowEl = document.querySelector('#filter-row')
 const progressFillEl = document.querySelector('#progress-fill')
 const progressTextEl = document.querySelector('#progress-text')
 const progressByCategoryEl = document.querySelector('#progress-by-category')
+const themeToggleEl = document.querySelector('#theme-toggle')
 
 let currentFilter = 'all'
+let categoryTouched = false
 
 formEl.addEventListener('submit', (e) => {
   e.preventDefault()
   addTodo(inputEl.value, categorySelectEl.value)
   inputEl.value = ''
+  categoryTouched = false
   inputEl.focus()
+})
+
+// Auto-suggest a category from the title as the user types, unless they've
+// picked one manually for this entry — a manual choice always wins.
+inputEl.addEventListener('input', () => {
+  if (categoryTouched) return
+  const guessed = guessCategory(inputEl.value)
+  if (guessed) categorySelectEl.value = guessed
+})
+
+categorySelectEl.addEventListener('change', () => {
+  categoryTouched = true
+})
+
+function syncThemeToggle(theme) {
+  themeToggleEl.textContent = theme === 'dark' ? '☀️' : '🌙'
+}
+
+themeToggleEl.addEventListener('click', () => {
+  syncThemeToggle(toggleTheme())
 })
 
 filterRowEl.addEventListener('click', (e) => {
@@ -197,5 +222,6 @@ function render() {
   updateProgress()
 }
 
+syncThemeToggle(initTheme())
 subscribe(render)
 render()
